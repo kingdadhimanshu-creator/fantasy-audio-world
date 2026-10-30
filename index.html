@@ -1,240 +1,401 @@
-
+```html
 <!DOCTYPE html>
-<html lang="hi">
+<html lang="hi" class="dark">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Fantasy Audio World</title>
+<meta name="theme-color" content="#090b14">
+<title>Fantasy Audio World — Hindi Audio Stories</title>
+<script src="https://cdn.tailwindcss.com"></script>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=Cinzel:wght@700;800;900&display=swap" rel="stylesheet">
+<script>
+tailwind.config = {
+  darkMode: 'class',
+  theme: {
+    extend: {
+      colors: {
+        bg: '#090b14',
+        panel: '#111625',
+        panelHover: '#171e31',
+        textMain: '#f4f5fb',
+        muted: '#9ba6bd',
+        gold: '#f2bd58',
+        goldDark: '#d99b26',
+        line: '#263149'
+      },
+      fontFamily: {
+        sans: ['Inter', 'Arial', 'sans-serif'],
+        display: ['Cinzel', 'serif']
+      }
+    }
+  }
+}
+</script>
 <style>
-*{box-sizing:border-box;margin:0;padding:0}
-body{
-  background:#090910;color:#fff;
-  font-family:Arial,sans-serif;
-}
-header{
-  padding:20px 16px;
-  background:#11111d;
-  border-bottom:1px solid #29243a;
-  display:flex;justify-content:space-between;
-  align-items:center;
-}
-.logo{font-size:19px;font-weight:bold;color:#e5bd75}
-.menu{color:#aaa;font-size:13px}
-.hero{
-  padding:38px 20px;
-  background:linear-gradient(130deg,#21152e,#10101d 65%,#34203c);
-}
-.hero small{color:#d7b777;letter-spacing:2px}
-.hero h1{font-size:29px;margin:15px 0}
-.hero p{color:#c1bacb;line-height:1.6;font-size:14px}
-.hero button,.play{
-  background:#d7b777;color:#17111b;
-  border:0;padding:12px 18px;
-  border-radius:7px;font-weight:bold;
-  margin-top:18px;cursor:pointer;
-}
-section{padding:23px 16px}
-.section-title{font-size:20px;margin-bottom:16px}
-.search{
-  width:100%;padding:13px;
-  background:#171723;border:1px solid #343044;
-  border-radius:8px;color:white;
-  margin:12px 0 17px;
-}
-.categories{display:flex;gap:9px;overflow-x:auto}
-.category{
-  padding:9px 14px;border-radius:20px;
-  background:#1b1a29;color:#ccc;
-  white-space:nowrap;border:1px solid #343044;
-  cursor:pointer;
-}
-.category.active{background:#d7b777;color:#15111a}
-.stories{
-  display:grid;grid-template-columns:1fr 1fr;
-  gap:13px;
-}
-.story{
-  background:#171723;border:1px solid #302b3d;
-  border-radius:10px;overflow:hidden;
-}
-.cover{
-  height:155px;display:flex;
-  align-items:center;justify-content:center;
-  text-align:center;padding:12px;
-  font-size:19px;font-weight:bold;
-  background:linear-gradient(145deg,#30203d,#10101a);
-  color:#e9c77f;
-}
-.story-info{padding:12px}
-.story-info h3{font-size:15px;margin-bottom:7px}
-.story-info p{font-size:12px;color:#aaa;line-height:1.5}
-.story-info button{
-  width:100%;padding:10px;margin-top:12px;
-  border:0;border-radius:6px;
-  background:#d7b777;font-weight:bold;
-}
-.player{
-  position:sticky;bottom:0;
-  background:#211b2d;border-top:1px solid #55445e;
-  padding:15px;z-index:5;
-}
-.player h3{font-size:14px;margin-bottom:9px}
-audio{width:100%;height:38px}
-footer{
-  padding:28px 15px;text-align:center;
-  color:#888;font-size:12px;line-height:2;
-  background:#11111a;
-}
-.empty{color:#aaa;text-align:center;padding:25px;grid-column:1/-1}
+  :root {
+    --bg: #090b14;
+    --panel: #111625;
+    --text: #f4f5fb;
+    --muted: #9ba6bd;
+    --gold: #f2bd58;
+    --line: #263149;
+  }
+  * { box-sizing: border-box; }
+  body {
+    margin: 0;
+    background: 
+      radial-gradient(ellipse at 80% -10%, rgba(46, 61, 114, 0.45), transparent 45%),
+      radial-gradient(ellipse at 10% 30%, rgba(92, 43, 88, 0.25), transparent 40%),
+      var(--bg);
+    color: var(--text);
+    font-family: 'Inter', Arial, sans-serif;
+    min-height: 100vh;
+    overflow-x: hidden;
+  }
+  /* Custom Scrollbar */
+  ::-webkit-scrollbar { width: 8px; height: 6px; }
+  ::-webkit-scrollbar-track { background: #090b14; }
+  ::-webkit-scrollbar-thumb { background: #263149; border-radius: 99px; }
+  ::-webkit-scrollbar-thumb:hover { background: #f2bd58; }
+
+  /* Subtle animated stars/sparkles in hero */
+  .hero-glow {
+    position: relative;
+    overflow: hidden;
+  }
+  .hero-glow::before {
+    content: "";
+    position: absolute;
+    inset: -40%;
+    background: conic-gradient(from 90deg at 50% 50%, transparent 0deg, rgba(242, 189, 88, 0.14) 90deg, transparent 180deg, rgba(111, 76, 255, 0.14) 270deg, transparent 360deg);
+    animation: slowSpin 18s linear infinite;
+    pointer-events: none;
+  }
+  @keyframes slowSpin {
+    to { transform: rotate(360deg); }
+  }
+  @keyframes equalizer {
+    0%, 100% { height: 4px; }
+    50% { height: 16px; }
+  }
+  .eq-bar {
+    width: 3px;
+    background: var(--gold);
+    border-radius: 2px;
+    display: inline-block;
+    animation: equalizer 0.8s ease-in-out infinite;
+  }
+  .eq-bar:nth-child(2) { animation-delay: 0.2s; }
+  .eq-bar:nth-child(3) { animation-delay: 0.4s; }
+
+  /* Range input styling */
+  input[type="range"] {
+    -webkit-appearance: none;
+    appearance: none;
+    background: transparent;
+    cursor: pointer;
+  }
+  input[type="range"]::-webkit-slider-runnable-track {
+    height: 6px;
+    border-radius: 999px;
+    background: #263149;
+  }
+  input[type="range"]::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    appearance: none;
+    width: 14px;
+    height: 14px;
+    border-radius: 50%;
+    background: #f2bd58;
+    margin-top: -4px;
+    box-shadow: 0 0 10px rgba(242, 189, 88, 0.8);
+    transition: transform 0.15s ease;
+  }
+  input[type="range"]::-webkit-slider-thumb:hover {
+    transform: scale(1.25);
+  }
 </style>
 </head>
-<body>
+<body class="pb-36">
 
-<header>
-  <div class="logo">✦ FANTASY AUDIO WORLD</div>
-  <div class="menu">STORIES</div>
+<!-- Toast Notification Container -->
+<div id="toastContainer" class="fixed top-20 right-4 z-50 flex flex-col gap-2 max-w-sm w-full pointer-events-none px-4 sm:px-0"></div>
+
+<!-- Top Navigation Header -->
+<header class="sticky top-0 z-30 bg-[#090b14]/90 backdrop-blur-md border-b border-line">
+  <div class="max-w-[1180px] mx-auto px-4 sm:px-5 h-[68px] flex items-center justify-between gap-2">
+    <button onclick="goHome()" class="flex items-center gap-2.5 text-left group focus:outline-none">
+      <div class="w-9 h-9 rounded-xl bg-gradient-to-br from-gold to-amber-600 flex items-center justify-center text-[#1a1205] font-black shadow-lg shadow-gold/20 group-hover:scale-105 transition">
+        <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24"><path d="M12 3v10.55c-.59-.34-1.27-.55-2-.55-2.21 0-4 1.79-4 4s1.79 4 4 4 4-1.79 4-4V7h4V3h-6z"/></svg>
+      </div>
+      <div>
+        <div class="font-black text-sm sm:text-base tracking-wider leading-none">FANTASY <span class="text-gold">AUDIO</span> WORLD</div>
+        <span class="text-[10px] text-muted tracking-widest uppercase block mt-0.5">Story by Himanshu</span>
+      </div>
+    </button>
+
+    <div class="flex items-center gap-2">
+      <button onclick="goHome()" class="px-3 py-2 rounded-xl border border-line bg-panel/60 hover:border-gold/60 text-xs sm:text-sm font-medium transition">Home</button>
+      <button onclick="scrollToLibrary()" class="px-3 py-2 rounded-xl border border-line bg-panel/60 hover:border-gold/60 text-xs sm:text-sm font-medium transition">Stories</button>
+      <button onclick="openAdminModal()" title="Manage Stories & Links" class="px-3 py-2 rounded-xl border border-gold/40 bg-gold/10 hover:bg-gold/20 text-gold text-xs sm:text-sm font-semibold transition flex items-center gap-1.5">
+        <span>⚙️</span> <span class="hidden sm:inline">Manage Links</span>
+      </button>
+    </div>
+  </div>
 </header>
 
-<div class="hero">
-  <small>WELCOME TO A NEW WORLD</small>
-  <h1>हर कहानी में एक नई दुनिया!</h1>
-  <p>Fantasy, Action, Adventure और रोमांच से भरी Audio Stories की दुनिया में आपका स्वागत है।</p>
-  <button onclick="document.getElementById('library').scrollIntoView({behavior:'smooth'})">
-    Explore Stories ↓
-  </button>
+<!-- HOME VIEW -->
+<main class="max-w-[1180px] mx-auto px-4 sm:px-5" id="home">
+  <!-- Hero Section -->
+  <section class="py-8 sm:py-12 grid grid-cols-1 md:grid-cols-[1.2fr_.8fr] gap-6 items-center">
+    <div>
+      <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-gold/10 border border-gold/30 text-gold text-[11px] font-bold tracking-widest uppercase mb-4">
+        <span>✨ ENTER THE WORLD OF IMAGINATION</span>
+      </div>
+      <h1 class="text-4xl sm:text-5xl lg:text-6xl font-black leading-[1.08] tracking-tight my-3">
+        हर कहानी की<br><span class="text-transparent bg-clip-text bg-gradient-to-r from-gold via-amber-300 to-amber-500">एक नई दुनिया।</span>
+      </h1>
+      <p class="text-muted text-sm sm:text-base leading-relaxed max-w-xl mb-6">
+        अपनी पसंदीदा Hindi audio stories सुनें। रहस्य, रोमांच, Sci-Fi और Fantasy की अनोखी दुनिया में खो जाएं। कहानी चुनें, episode खोलें और इसी वेबसाइट पर सीधा audio play करें।
+      </p>
+      <div class="flex flex-wrap gap-3">
+        <button onclick="scrollToLibrary()" class="bg-gradient-to-r from-[#f5ca72] to-[#e6a83d] hover:brightness-110 text-[#211707] font-bold px-5 py-3 rounded-xl shadow-lg shadow-gold/15 transition flex items-center gap-2 text-sm sm:text-base">
+          <span>Explore Stories</span> <span>↓</span>
+        </button>
+        <button onclick="playRandomEpisode()" class="border border-line bg-panel hover:border-gold/60 text-white font-semibold px-4 py-3 rounded-xl transition flex items-center gap-2 text-sm sm:text-base">
+          <span>🎲</span> <span>Surprise Story</span>
+        </button>
+      </div>
+    </div>
+
+    <!-- Hero Decorative Card -->
+    <div class="hero-glow min-h-[210px] sm:min-h-[250px] rounded-3xl border border-[#414b71] bg-gradient-to-br from-[#222d50] via-[#101321] to-[#3b2344] p-6 flex flex-col items-center justify-center text-center shadow-2xl relative">
+      <div class="relative z-10">
+        <div class="w-14 h-14 mx-auto mb-3 rounded-2xl bg-gold/15 border border-gold/40 flex items-center justify-center text-gold text-2xl shadow-inner">
+          🎧
+        </div>
+        <strong class="font-display text-2xl sm:text-3xl tracking-wider block text-white drop-shadow">FANTASY<br>AUDIO WORLD</strong>
+        <small class="block text-[#e6c78b] tracking-[3px] text-[11px] font-semibold mt-3">STORIES • WORLDS • EMOTIONS</small>
+        <div class="mt-4 inline-flex items-center gap-3 text-xs text-muted bg-black/30 px-3.5 py-1.5 rounded-full border border-white/10">
+          <span id="heroStatsStories">3 Series</span>
+          <span>•</span>
+          <span id="heroStatsEpisodes">6 Episodes</span>
+          <span>•</span>
+          <span class="text-gold">Hindi Audio</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Continue Listening Banner (Hidden if no history) -->
+  <section id="continueBanner" class="hidden mb-8">
+    <div class="rounded-2xl border border-gold/40 bg-gradient-to-r from-[#1c2540] via-[#151c30] to-[#291d36] p-4 sm:p-5 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 shadow-lg">
+      <div class="flex items-center gap-3.5">
+        <div class="w-12 h-12 rounded-xl bg-gold/20 border border-gold/50 flex items-center justify-center text-gold font-bold text-xl shrink-0">
+          ▶
+        </div>
+        <div>
+          <div class="text-[11px] font-bold uppercase tracking-wider text-gold flex items-center gap-2">
+            <span>पिछली बार जहाँ छोड़ा था (Continue Listening)</span>
+          </div>
+          <h3 id="contTitle" class="font-bold text-base sm:text-lg text-white mt-0.5">—</h3>
+          <p id="contMeta" class="text-xs text-muted">—</p>
+        </div>
+      </div>
+      <div class="flex items-center gap-2 w-full sm:w-auto">
+        <button id="contPlayBtn" class="flex-1 sm:flex-initial bg-gold hover:bg-amber-400 text-[#1c1406] font-bold px-4 py-2.5 rounded-xl text-xs sm:text-sm transition">
+          ▶ Resume Audio
+        </button>
+        <button onclick="clearLastPlayed()" title="Dismiss" class="px-3 py-2.5 rounded-xl border border-line hover:border-red-400/50 text-muted hover:text-red-300 text-xs transition">
+          ✕
+        </button>
+      </div>
+    </div>
+  </section>
+
+  <!-- Library Section -->
+  <section id="library" class="pt-2">
+    <div class="flex flex-wrap items-center justify-between gap-3 mb-4">
+      <div>
+        <h2 class="text-2xl font-extrabold tracking-tight">Story Library</h2>
+        <p class="text-xs text-muted mt-0.5">अपनी मनपसंद श्रेणी चुनें या कहानी खोजें</p>
+      </div>
+      <small id="count" class="text-xs font-semibold px-3 py-1 rounded-full bg-panel border border-line text-gold"></small>
+    </div>
+
+    <!-- Search & Sort Controls -->
+    <div class="grid grid-cols-1 sm:grid-cols-[1fr_auto] gap-3 my-4">
+      <div class="relative">
+        <input id="search" type="search" placeholder="कहानी, किरदार या श्रेणी खोजें (e.g. Rudra, Fantasy, Evolution)..." oninput="renderStories()"
+          class="w-full bg-panel border border-line focus:border-gold focus:outline-none rounded-xl pl-10 pr-4 py-3.5 text-sm text-white placeholder-muted transition">
+        <span class="absolute left-3.5 top-1/2 -translate-y-1/2 text-muted">🔍</span>
+      </div>
+      <select id="sortSelect" onchange="renderStories()" class="bg-panel border border-line focus:border-gold focus:outline-none rounded-xl px-4 py-3.5 text-sm text-white">
+        <option value="default">Sort: Featured</option>
+        <option value="episodes">Most Episodes</option>
+        <option value="az">Title (A–Z)</option>
+      </select>
+    </div>
+
+    <!-- Category Chips -->
+    <div class="flex gap-2 overflow-x-auto pb-3 mb-4 no-scrollbar" id="filters"></div>
+
+    <!-- Stories Grid -->
+    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-5" id="stories"></div>
+  </section>
+
+  <footer class="border-t border-line mt-16 py-8 text-muted text-xs sm:text-sm text-center space-y-2">
+    <div class="font-bold text-white tracking-wider">FANTASY <span class="text-gold">AUDIO</span> WORLD</div>
+    <div>© <span id="year"></span> Fantasy Audio World · Original Creative Stories · <span class="text-gold font-medium">Story by Himanshu</span></div>
+    <div class="pt-2">
+      <button onclick="openAdminModal()" class="text-xs text-muted hover:text-gold underline">⚙️ Creator Link & Story Manager</button>
+    </div>
+  </footer>
+</main>
+
+<!-- STORY DETAIL VIEW -->
+<section class="max-w-[1180px] mx-auto px-4 sm:px-5 hidden pt-6 pb-28" id="storyView">
+  <div class="flex items-center justify-between gap-2 mb-5">
+    <button onclick="goHome()" class="inline-flex items-center gap-2 px-4 py-2.5 rounded-xl border border-line bg-panel hover:border-gold/60 text-sm font-semibold transition">
+      <span>←</span> <span>वापस Stories पर</span>
+    </button>
+    <div class="flex items-center gap-2">
+      <button id="detailFavBtn" onclick="toggleFavorite(currentStory.id)" class="px-4 py-2.5 rounded-xl border border-line bg-panel hover:border-gold/60 text-sm font-semibold transition flex items-center gap-1.5">
+        <span>🤍</span> <span>Save</span>
+      </button>
+      <button onclick="shareCurrentStory()" class="px-4 py-2.5 rounded-xl border border-line bg-panel hover:border-gold/60 text-sm font-semibold transition flex items-center gap-1.5">
+        <span>🔗</span> <span>Share</span>
+      </button>
+    </div>
+  </div>
+
+  <!-- Story Banner populated dynamically -->
+  <div id="storyDetails"></div>
+
+  <!-- Episodes List Header -->
+  <div class="flex flex-wrap items-center justify-between gap-3 mt-8 mb-4">
+    <div class="flex items-center gap-3">
+      <h2 class="text-xl sm:text-2xl font-extrabold">Episodes</h2>
+      <small id="epcount" class="text-xs px-2.5 py-1 rounded-full bg-panel border border-line text-gold font-semibold"></small>
+    </div>
+    <div class="flex items-center gap-2">
+      <button onclick="openAdminModal(currentStory ? currentStory.id : null)" class="text-xs px-3 py-1.5 rounded-lg border border-gold/40 bg-gold/10 text-gold hover:bg-gold/20 transition">
+        + Add / Edit Episode Links
+      </button>
+    </div>
+  </div>
+
+  <!-- Episodes Container -->
+  <div class="grid gap-3" id="episodes"></div>
+</section>
+
+<!-- STICKY BOTTOM AUDIO PLAYER -->
+<div id="player" class="fixed bottom-0 left-0 right-0 z-40 bg-[#0d1220]/95 backdrop-blur-xl border-t border-[#35405a] px-4 py-3 hidden shadow-2xl">
+  <div class="max-w-[1180px] mx-auto flex flex-col gap-2.5">
+    
+    <!-- Custom Progress Bar Row -->
+    <div class="flex items-center gap-3 text-[11px] text-muted">
+      <span id="curTime" class="w-10 text-right font-mono">00:00</span>
+      <input id="seekBar" type="range" min="0" max="100" value="0" step="0.1" class="flex-1" oninput="seekAudio(this.value)">
+      <span id="durTime" class="w-10 font-mono">00:00</span>
+    </div>
+
+    <!-- Main Controls Row -->
+    <div class="flex flex-wrap items-center justify-between gap-3">
+      <!-- Currently Playing Info -->
+      <div class="flex items-center gap-3 min-w-0 flex-1">
+        <div class="w-10 h-10 rounded-xl bg-gradient-to-br from-gold/30 to-amber-700/20 border border-gold/50 flex items-center justify-center shrink-0">
+          <div class="flex items-end gap-0.5 h-4" id="eqAnim">
+            <span class="eq-bar"></span>
+            <span class="eq-bar"></span>
+            <span class="eq-bar"></span>
+          </div>
+        </div>
+        <div class="min-w-0 flex-1">
+          <div class="flex items-center gap-2">
+            <b id="nowTitle" class="text-xs sm:text-sm text-white truncate block">अब चल रहा है</b>
+            <span id="audioModeBadge" class="text-[10px] px-2 py-0.5 rounded-full bg-gold/15 text-gold border border-gold/30 font-semibold shrink-0">Audio</span>
+          </div>
+          <small id="nowStory" class="text-muted text-xs truncate block">Fantasy Audio World</small>
+        </div>
+      </div>
+
+      <!-- Playback Buttons -->
+      <div class="flex items-center gap-1.5 sm:gap-2">
+        <button onclick="playAdjacentEpisode(-1)" title="Previous Episode" class="p-2 rounded-lg bg-panel border border-line hover:border-gold/50 text-white text-xs transition">⏮</button>
+        <button onclick="skip(-10)" title="Rewind 10s" class="px-2.5 py-2 rounded-lg bg-panel border border-line hover:border-gold/50 text-white text-xs font-semibold transition">−10s</button>
+        <button id="playPauseBtn" onclick="togglePlayPause()" class="w-10 h-10 rounded-xl bg-gold hover:bg-amber-400 text-[#191205] font-black text-base flex items-center justify-center shadow-md transition">
+          ⏸
+        </button>
+        <button onclick="skip(10)" title="Forward 10s" class="px-2.5 py-2 rounded-lg bg-panel border border-line hover:border-gold/50 text-white text-xs font-semibold transition">+10s</button>
+        <button onclick="playAdjacentEpisode(1)" title="Next Episode" class="p-2 rounded-lg bg-panel border border-line hover:border-gold/50 text-white text-xs transition">⏭</button>
+      </div>
+
+      <!-- Speed, Sleep Timer & Close -->
+      <div class="flex items-center gap-1.5 sm:gap-2">
+        <select id="speed" onchange="setSpeed(this.value)" title="Playback Speed" class="bg-panel text-white border border-line rounded-lg px-2 py-1.5 text-xs">
+          <option value="0.75">0.75×</option>
+          <option value="1" selected>1×</option>
+          <option value="1.25">1.25×</option>
+          <option value="1.5">1.5×</option>
+          <option value="2">2×</option>
+        </select>
+
+        <select id="sleepTimerSelect" onchange="setSleepTimer(this.value)" title="Sleep Timer" class="bg-panel text-white border border-line rounded-lg px-2 py-1.5 text-xs">
+          <option value="0">🌙 Sleep: Off</option>
+          <option value="5">🌙 5 min</option>
+          <option value="15">🌙 15 min</option>
+          <option value="30">🌙 30 min</option>
+        </select>
+
+        <button onclick="closePlayer()" title="Close Player" class="p-2 rounded-lg bg-panel border border-line hover:border-red-400/50 text-muted hover:text-red-300 text-xs transition">✕</button>
+      </div>
+    </div>
+
+    <!-- Hidden Native Audio Element -->
+    <audio id="audio" preload="metadata"></audio>
+  </div>
 </div>
 
-<section id="library">
-  <h2 class="section-title">Story Library</h2>
+<!-- CREATOR LINK & STORY MANAGER MODAL -->
+<div id="adminModal" class="fixed inset-0 z-50 bg-black/80 backdrop-blur-sm hidden items-center justify-center p-4 overflow-y-auto">
+  <div class="bg-[#111625] border border-line rounded-2xl max-w-3xl w-full p-5 sm:p-6 shadow-2xl max-h-[90vh] flex flex-col">
+    <div class="flex items-center justify-between border-b border-line pb-4 mb-4">
+      <div>
+        <h3 class="text-lg sm:text-xl font-bold text-white flex items-center gap-2">
+          <span>⚙️</span> <span>Story & Episode Link Manager</span>
+        </h3>
+        <p class="text-xs text-muted mt-0.5">यहाँ से किसी भी Episode का MP3, Telegram, YouTube या Google Drive link जोड़ें या नई कहानी बनाएं।</p>
+      </div>
+      <button onclick="closeAdminModal()" class="w-8 h-8 rounded-lg border border-line text-muted hover:text-white">✕</button>
+    </div>
 
-  <input class="search" id="search"
-    placeholder="Search your favourite story..."
-    oninput="renderStories()">
+    <!-- Modal Body -->
+    <div class="overflow-y-auto flex-1 space-y-5 pr-1">
+      <!-- Select Story to Edit -->
+      <div class="grid grid-cols-1 sm:grid-cols-[1fr_auto] gap-3 items-end bg-[#0b0f1a] p-4 rounded-xl border border-line">
+        <div>
+          <label class="block text-xs text-gold font-semibold mb-1.5">कहानी चुनें (Select Story to Edit):</label>
+          <select id="adminStorySelect" onchange="populateAdminStory()" class="w-full bg-panel border border-line rounded-xl px-3.5 py-2.5 text-sm text-white"></select>
+        </div>
+        <button onclick="createNewStoryPrompt()" class="px-4 py-2.5 rounded-xl bg-gold/15 border border-gold/40 text-gold hover:bg-gold/25 text-xs font-bold transition">
+          + नई कहानी (New Story)
+        </button>
+      </div>
 
-  <div class="categories">
-    <button class="category active" onclick="filter('All',this)">All</button>
-    <button class="category" onclick="filter('Fantasy',this)">Fantasy</button>
-    <button class="category" onclick="filter('Action',this)">Action</button>
-    <button class="category" onclick="filter('Adventure',this)">Adventure</button>
-  </div>
-
-  <div class="stories" id="stories"></div>
-</section>
-
-<section>
-  <h2 class="section-title">Now Playing</h2>
-  <div class="player" style="position:static;border-radius:10px">
-    <h3 id="nowPlaying">कोई Episode नहीं चल रहा</h3>
-    <audio id="audio" controls preload="none">
-      आपका ब्राउज़र Audio Player सपोर्ट नहीं करता।
-    </audio>
-  </div>
-</section>
-
-<footer>
-  <h3>FANTASY AUDIO WORLD</h3>
-  Story by Himanshu<br>
-  Original Creative Stories<br>
-  © 2026 Fantasy Audio World
-</footer>
-
-<script>
-const stories = [
- {
-  title:"ETERNAL RIFT",
-  category:"Fantasy",
-  description:"एक ऐसी दुनिया जहाँ इंसान की किस्मत एक रहस्यमयी Rift से बदल जाती है।",
-  episodes:[
-   {name:"Episode 1",url:""},
-   {name:"Episode 2",url:""}
-  ]
- },
- {
-  title:"ORIGIN: EVOLUTION",
-  category:"Action",
-  description:"एक साधारण इंसान की शुरुआत, जिसके अंदर छिपी है एक असाधारण शक्ति।",
-  episodes:[
-   {name:"Episode 1",url:""},
-   {name:"Episode 2",url:""}
-  ]
- },
- {
-  title:"OPERATION ORIGIN",
-  category:"Adventure",
-  description:"एक रहस्यमयी मिशन, एक अनजान शक्ति और दुनिया बदलने वाला सच।",
-  episodes:[
-   {name:"Episode 1",url:""},
-   {name:"Episode 2",url:""}
-  ]
- }
-];
-
-let selected="All";
-
-function renderStories(){
- const query=document.getElementById("search").value.toLowerCase();
- const list=stories.filter(s=>
-  (selected==="All"||s.category===selected)&&
-  s.title.toLowerCase().includes(query)
- );
- const container=document.getElementById("stories");
- container.innerHTML="";
-
- if(!list.length){
-  container.innerHTML='<div class="empty">कोई Story नहीं मिली।</div>';
-  return;
- }
-
- list.forEach((s)=>{
-  const card=document.createElement("div");
-  card.className="story";
-  card.innerHTML=`
-   <div class="cover">${s.title}</div>
-   <div class="story-info">
-    <h3>${s.title}</h3>
-    <p>${s.category} • ${s.episodes.length} Episodes</p>
-    <p>${s.description}</p>
-    <button>View Episodes</button>
-    <div class="episode-list" hidden></div>
-   </div>`;
-
-  const btn=card.querySelector("button");
-  const episodeList=card.querySelector(".episode-list");
-
-  btn.onclick=()=>{
-   episodeList.hidden=!episodeList.hidden;
-   episodeList.innerHTML="";
-   s.episodes.forEach(ep=>{
-    const e=document.createElement("button");
-    e.textContent="▶ "+ep.name;
-    e.style.cssText="width:100%;margin-top:8px;padding:9px;background:#30263e;color:white;border:0;border-radius:5px";
-    e.onclick=()=>playEpisode(ep);
-    episodeList.appendChild(e);
-   });
-  };
-  container.appendChild(card);
- });
-}
-
-function playEpisode(ep){
- if(!ep.url){
-  alert("इस Episode का Audio URL अभी जोड़ा नहीं गया है।");
-  return;
- }
- const audio=document.getElementById("audio");
- audio.src=ep.url;
- document.getElementById("nowPlaying").textContent=ep.name;
- audio.play().catch(()=>alert("Audio चलाने के लिए दोबारा Play दबाएँ।"));
-}
-
-function filter(category,button){
- selected=category;
- document.querySelectorAll(".category").forEach(b=>b.classList.remove("active"));
- button.classList.add("active");
- renderStories();
-}
-
-renderStories();
-</script>
-</body>
-</html>
+      <!-- Story Metadata Editor -->
+      <div class="grid grid-cols-1 sm:grid-cols-3 gap-3">
+        <div>
+          <label class="block text-xs text-muted mb-1">Story Title</label>
+          <input id="editStoryTitle" type="text" class="w-full bg-[#0b0f1a] border border-line rounded-lg px-3 py-2 text-sm text-white">
+        </div>
+        <div>
+          <label class="block text-xs text-muted mb-1">Category</label>
+          <input id="editStoryCat" type="text" placeholder="Fantasy, Sci-Fi, Action..." class="w-full bg-[#0b0f1a] border border-line rounded-lg px-3 py-2 text-sm text-white">
+        </div>
+        <div>
+          <label class="block text-xs text-muted mb-1">Status</label>
+          <select id="editStoryStatus" class="w-full bg-[#0b0f1a] border border-line rounded-lg px-3 py-2 text-sm text-white">
+            <option value="Ongoing">Ongoing</option>
+            <option value="Completed">Completed</option>
+   
