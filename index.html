@@ -1,0 +1,240 @@
+
+<!DOCTYPE html>
+<html lang="hi">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Fantasy Audio World</title>
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+body{
+  background:#090910;color:#fff;
+  font-family:Arial,sans-serif;
+}
+header{
+  padding:20px 16px;
+  background:#11111d;
+  border-bottom:1px solid #29243a;
+  display:flex;justify-content:space-between;
+  align-items:center;
+}
+.logo{font-size:19px;font-weight:bold;color:#e5bd75}
+.menu{color:#aaa;font-size:13px}
+.hero{
+  padding:38px 20px;
+  background:linear-gradient(130deg,#21152e,#10101d 65%,#34203c);
+}
+.hero small{color:#d7b777;letter-spacing:2px}
+.hero h1{font-size:29px;margin:15px 0}
+.hero p{color:#c1bacb;line-height:1.6;font-size:14px}
+.hero button,.play{
+  background:#d7b777;color:#17111b;
+  border:0;padding:12px 18px;
+  border-radius:7px;font-weight:bold;
+  margin-top:18px;cursor:pointer;
+}
+section{padding:23px 16px}
+.section-title{font-size:20px;margin-bottom:16px}
+.search{
+  width:100%;padding:13px;
+  background:#171723;border:1px solid #343044;
+  border-radius:8px;color:white;
+  margin:12px 0 17px;
+}
+.categories{display:flex;gap:9px;overflow-x:auto}
+.category{
+  padding:9px 14px;border-radius:20px;
+  background:#1b1a29;color:#ccc;
+  white-space:nowrap;border:1px solid #343044;
+  cursor:pointer;
+}
+.category.active{background:#d7b777;color:#15111a}
+.stories{
+  display:grid;grid-template-columns:1fr 1fr;
+  gap:13px;
+}
+.story{
+  background:#171723;border:1px solid #302b3d;
+  border-radius:10px;overflow:hidden;
+}
+.cover{
+  height:155px;display:flex;
+  align-items:center;justify-content:center;
+  text-align:center;padding:12px;
+  font-size:19px;font-weight:bold;
+  background:linear-gradient(145deg,#30203d,#10101a);
+  color:#e9c77f;
+}
+.story-info{padding:12px}
+.story-info h3{font-size:15px;margin-bottom:7px}
+.story-info p{font-size:12px;color:#aaa;line-height:1.5}
+.story-info button{
+  width:100%;padding:10px;margin-top:12px;
+  border:0;border-radius:6px;
+  background:#d7b777;font-weight:bold;
+}
+.player{
+  position:sticky;bottom:0;
+  background:#211b2d;border-top:1px solid #55445e;
+  padding:15px;z-index:5;
+}
+.player h3{font-size:14px;margin-bottom:9px}
+audio{width:100%;height:38px}
+footer{
+  padding:28px 15px;text-align:center;
+  color:#888;font-size:12px;line-height:2;
+  background:#11111a;
+}
+.empty{color:#aaa;text-align:center;padding:25px;grid-column:1/-1}
+</style>
+</head>
+<body>
+
+<header>
+  <div class="logo">✦ FANTASY AUDIO WORLD</div>
+  <div class="menu">STORIES</div>
+</header>
+
+<div class="hero">
+  <small>WELCOME TO A NEW WORLD</small>
+  <h1>हर कहानी में एक नई दुनिया!</h1>
+  <p>Fantasy, Action, Adventure और रोमांच से भरी Audio Stories की दुनिया में आपका स्वागत है।</p>
+  <button onclick="document.getElementById('library').scrollIntoView({behavior:'smooth'})">
+    Explore Stories ↓
+  </button>
+</div>
+
+<section id="library">
+  <h2 class="section-title">Story Library</h2>
+
+  <input class="search" id="search"
+    placeholder="Search your favourite story..."
+    oninput="renderStories()">
+
+  <div class="categories">
+    <button class="category active" onclick="filter('All',this)">All</button>
+    <button class="category" onclick="filter('Fantasy',this)">Fantasy</button>
+    <button class="category" onclick="filter('Action',this)">Action</button>
+    <button class="category" onclick="filter('Adventure',this)">Adventure</button>
+  </div>
+
+  <div class="stories" id="stories"></div>
+</section>
+
+<section>
+  <h2 class="section-title">Now Playing</h2>
+  <div class="player" style="position:static;border-radius:10px">
+    <h3 id="nowPlaying">कोई Episode नहीं चल रहा</h3>
+    <audio id="audio" controls preload="none">
+      आपका ब्राउज़र Audio Player सपोर्ट नहीं करता।
+    </audio>
+  </div>
+</section>
+
+<footer>
+  <h3>FANTASY AUDIO WORLD</h3>
+  Story by Himanshu<br>
+  Original Creative Stories<br>
+  © 2026 Fantasy Audio World
+</footer>
+
+<script>
+const stories = [
+ {
+  title:"ETERNAL RIFT",
+  category:"Fantasy",
+  description:"एक ऐसी दुनिया जहाँ इंसान की किस्मत एक रहस्यमयी Rift से बदल जाती है।",
+  episodes:[
+   {name:"Episode 1",url:""},
+   {name:"Episode 2",url:""}
+  ]
+ },
+ {
+  title:"ORIGIN: EVOLUTION",
+  category:"Action",
+  description:"एक साधारण इंसान की शुरुआत, जिसके अंदर छिपी है एक असाधारण शक्ति।",
+  episodes:[
+   {name:"Episode 1",url:""},
+   {name:"Episode 2",url:""}
+  ]
+ },
+ {
+  title:"OPERATION ORIGIN",
+  category:"Adventure",
+  description:"एक रहस्यमयी मिशन, एक अनजान शक्ति और दुनिया बदलने वाला सच।",
+  episodes:[
+   {name:"Episode 1",url:""},
+   {name:"Episode 2",url:""}
+  ]
+ }
+];
+
+let selected="All";
+
+function renderStories(){
+ const query=document.getElementById("search").value.toLowerCase();
+ const list=stories.filter(s=>
+  (selected==="All"||s.category===selected)&&
+  s.title.toLowerCase().includes(query)
+ );
+ const container=document.getElementById("stories");
+ container.innerHTML="";
+
+ if(!list.length){
+  container.innerHTML='<div class="empty">कोई Story नहीं मिली।</div>';
+  return;
+ }
+
+ list.forEach((s)=>{
+  const card=document.createElement("div");
+  card.className="story";
+  card.innerHTML=`
+   <div class="cover">${s.title}</div>
+   <div class="story-info">
+    <h3>${s.title}</h3>
+    <p>${s.category} • ${s.episodes.length} Episodes</p>
+    <p>${s.description}</p>
+    <button>View Episodes</button>
+    <div class="episode-list" hidden></div>
+   </div>`;
+
+  const btn=card.querySelector("button");
+  const episodeList=card.querySelector(".episode-list");
+
+  btn.onclick=()=>{
+   episodeList.hidden=!episodeList.hidden;
+   episodeList.innerHTML="";
+   s.episodes.forEach(ep=>{
+    const e=document.createElement("button");
+    e.textContent="▶ "+ep.name;
+    e.style.cssText="width:100%;margin-top:8px;padding:9px;background:#30263e;color:white;border:0;border-radius:5px";
+    e.onclick=()=>playEpisode(ep);
+    episodeList.appendChild(e);
+   });
+  };
+  container.appendChild(card);
+ });
+}
+
+function playEpisode(ep){
+ if(!ep.url){
+  alert("इस Episode का Audio URL अभी जोड़ा नहीं गया है।");
+  return;
+ }
+ const audio=document.getElementById("audio");
+ audio.src=ep.url;
+ document.getElementById("nowPlaying").textContent=ep.name;
+ audio.play().catch(()=>alert("Audio चलाने के लिए दोबारा Play दबाएँ।"));
+}
+
+function filter(category,button){
+ selected=category;
+ document.querySelectorAll(".category").forEach(b=>b.classList.remove("active"));
+ button.classList.add("active");
+ renderStories();
+}
+
+renderStories();
+</script>
+</body>
+</html>
